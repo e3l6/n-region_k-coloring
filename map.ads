@@ -9,22 +9,29 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Text_Io;
-with Ada.Integer_Text_Io;
+with Ada.Text_IO;
+with Ada.Integer_Text_IO;
 with Ada.Strings.Unbounded;
+with Ada.Numerics.Float_Random;
+with Ada.Float_Text_IO;
 
 package Map is
    
    subtype Bit_Type is Natural range 0 .. 1;
    
-   -- Number of colors. 2 to 255 colors
-   subtype Nr_Colors_Type is Natural range 2 .. 2**8 - 1;
+   type Neuron_Type is
+      record
+         V : Bit_Type := 0;     -- Output
+         U : Float    := 0.0;   -- Input
+      end record;
    
-   -- Number of regions to be colored. 1 to 65535 regions
+   -- Number of colors. Up to 255 colors
+   subtype Nr_Colors_Type is Natural range 1 .. 2**8 - 1;
+   
+   -- Number of regions to be colored. Up to 65535 regions
    subtype Nr_Regions_Type is Natural range 1 .. 2**16 - 1;
    
-   type Region_Type is array ( Nr_Colors_Type range <> ) of Bit_Type
-     with Default_Component_Value => 0;
+   type Region_Type is array ( Nr_Colors_Type range <> ) of Neuron_Type;
    
    -- I need a dynamic array of dynamic arrays. Using Ada's implicit
    --   dereferencing of access types.
@@ -42,5 +49,14 @@ package Map is
    procedure Read_Map ( File_Name : in String );
    
    procedure Print_Adjacency_Matrix;
+   
+   procedure Initialize;
+   
+   procedure Print_NN_Map ( Map : access Map_Type );
+   
+   procedure Motion ( Region : in Nr_Regions_Type;
+                      Color : in Nr_Colors_Type );
+ 
+   procedure Color;
    
 end Map;
