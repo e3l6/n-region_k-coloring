@@ -1,0 +1,10 @@
+# Don't track these intermediate, log, and garbage files.
+*~
+*#
+*.ali
+*.aux
+*.o
+*.log
+*.synctex.gz
+.#*
+color
