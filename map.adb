@@ -137,6 +137,8 @@ package body Map is
 	 Ada.Text_IO.New_Line;
       end loop;
       
+      Ada.Text_IO.New_Line;
+      
    end Print_Adjacency_Matrix;
    
    
@@ -232,7 +234,8 @@ package body Map is
       -- Region = X, Color = i in the published equation
       
       dUXi : Float := 0.0;              -- Calculated energy change for a neuron
-      A, B, C, C1, C2 : Float := 1.0;   -- Coefficients
+      A, B, C, C2 : Float := 1.0;   -- Coefficients
+      C1 : Float := 1.0;
       A_Term, B_Term, B2_Term, H, H_Term, C_Term, C1_Term,
         C2_Term, C2B_Term, C2C_Term : Integer := 0;   -- Different components of the motion
                                                       -- equation
@@ -284,59 +287,68 @@ package body Map is
          C2B_Term := C2B_Term + Integer ( Adjacency_Matrix ( Region, K ) );
       end loop;
       
-      if ( Iterations > 60 ) and ( Iterations mod 5 = 0 ) then
-         C := 5.0;
-      else
-         C := 1.0;
-      end if;
+      --  if ( Iterations > 60 ) and ( Iterations mod 5 = 0 ) then
+      --     C := 5.0;
+      --  else
+      --     C := 1.0;
+      --  end if;
       
       -- Add it all up for dUXi
-      dUXi := 0.0 - ( A * Float ( A_Term ) ) - ( B * Float ( B_Term ) ) + 
+      dUXi := ( -1.0 * A * Float ( A_Term ) ) - ( B * Float ( B_Term ) ) + 
         ( C * Float ( H ) * ( ( C1 * Float ( C1_Term ) ) + 
                               ( C2 * Float ( C2_Term ) / Float ( C2B_Term ) ) ) );
       
       --  Ada.Text_IO.Put ( "Region" & Nr_Regions_Type'Image ( Region ) & " Color" & 
       --                    Nr_Colors_Type'Image ( Color ) );
-      --  Ada.Text_IO.Put ( " A_Term:" & Integer'Image ( A_Term ) );
-      --  Ada.Text_IO.Put ( " B_Term:" & Integer'Image ( B_Term ) );
-      --  Ada.Text_IO.Put ( " H_Term:" & Integer'Image ( H_Term ) );
-      --  Ada.Text_IO.Put ( " H:" & Integer'Image ( H ) );
-      --  Ada.Text_IO.Put ( " C1_Term:" & Integer'Image ( C1_Term ) );
-      --  Ada.Text_IO.Put ( " C2_Term:" & Integer'Image ( C2_Term ) );
-      --  Ada.Text_IO.Put ( " C2B_Term:" & Integer'Image ( C2B_Term ) );
-      --  Ada.Text_IO.Put_Line ( " dUXi:" & Float'Image ( DUXi ) );
+      --  Ada.Text_IO.Put ( " A_Term:" );
+      --  Ada.Integer_Text_IO.Put ( A_Term, 5 );
+      --  Ada.Text_IO.Put ( " B_Term:" );
+      --  Ada.Integer_Text_IO.Put ( B_Term, 5 );
+      --  Ada.Text_IO.Put ( " H_Term:" );
+      --  Ada.Integer_Text_IO.Put ( H_Term, 5 );
+      --  Ada.Text_IO.Put ( " H:" );
+      --  Ada.Integer_Text_IO.Put ( H, 5 );
+      --  Ada.Text_IO.Put ( " C1_Term:" );
+      --  Ada.Integer_Text_IO.Put ( C1_Term, 5 );
+      --  Ada.Text_IO.Put ( " C2_Term:" );
+      --  Ada.Integer_Text_IO.Put ( C2_Term, 5 );
+      --  Ada.Text_IO.Put ( " C2B_Term:" );
+      --  Ada.Integer_Text_IO.Put ( C2B_Term, 5 );
+      --  Ada.Text_IO.Put ( " dUXi:" );
+      --  Ada.Float_Text_IO.Put ( DUXi, 3, 0, 0 );
+      --  Ada.Text_IO.New_Line;
       
-      -- Apply dUXi and update output (if U >= 0.0 then V := 1)
+      -- Apply dUXi and update output (if U = 0.0 then V := 1)
       
       NN_Map ( Region ) ( Color ).U := NN_Map ( Region ) ( Color ).U + dUXi;
       
-      Ada.Text_IO.Put ( "Region" & Nr_Regions_Type'Image ( Region ) & " Color" & 
-                        Nr_Colors_Type'Image ( Color ) );
-      Ada.Text_IO.Put ( " U " );
-      Ada.Float_Text_IO.Put ( NN_Map_Old ( Region ) ( Color ).U, 1, 0, 0 );
-      Ada.Text_IO.Put ( " + dUXi " );
-      Ada.Float_Text_IO.Put ( dUxi, 1, 0, 0 );
-      Ada.Text_IO.Put ( " = U " );
-      Ada.Float_Text_IO.Put ( NN_Map ( Region ) ( Color ).U, 1, 0, 0 );
-      Ada.Text_IO.New_Line;
+      --  Ada.Text_IO.Put ( "Region" & Nr_Regions_Type'Image ( Region ) & " Color" & 
+      --                    Nr_Colors_Type'Image ( Color ) );
+      --  Ada.Text_IO.Put ( " U " );
+      --  Ada.Float_Text_IO.Put ( NN_Map_Old ( Region ) ( Color ).U, 5, 0, 0 );
+      --  Ada.Text_IO.Put ( " + dUXi " );
+      --  Ada.Float_Text_IO.Put ( dUxi, 5, 0, 0 );
+      --  Ada.Text_IO.Put ( " = U " );
+      --  Ada.Float_Text_IO.Put ( NN_Map ( Region ) ( Color ).U, 5, 0, 0 );
+      --  Ada.Text_IO.New_Line;
       
-      if NN_Map ( Region ) ( Color ).U >= 0.0 then
-         NN_Map ( Region ) ( Color ).V := 1;
-         --  if NN_Map ( Region ) ( Color ).V = 0 then
-         --     NN_Map ( Region ) ( Color ).V := 1;
-         --     Dirty := True;
-         --  end if;   
-      else
-         NN_Map ( Region ) ( Color ).V := 0;
-         --  if NN_Map ( Region ) ( Color ).V = 1 then
-         --     NN_Map ( Region ) ( Color ).V := 0;
-         --     Dirty := True;
-         --  end if;
-      end if;
+      --  if NN_Map ( Region ) ( Color ).U > 0.0 then
+      --     NN_Map ( Region ) ( Color ).V := 1;
+      --     --  if NN_Map ( Region ) ( Color ).V = 0 then
+      --     --     NN_Map ( Region ) ( Color ).V := 1;
+      --     --     Dirty := True;
+      --     --  end if;   
+      --  else
+      --     NN_Map ( Region ) ( Color ).V := 0;
+      --     --  if NN_Map ( Region ) ( Color ).V = 1 then
+      --     --     NN_Map ( Region ) ( Color ).V := 0;
+      --     --     Dirty := True;
+      --     --  end if;
+      --  end if;
       
-      if dUXi /= 0.0 then
-         Dirty := True;
-      end if;
+      --  if dUXi /= 0.0 then
+      --     Dirty := True;
+      --  end if;
       
    end Motion;
    
@@ -349,6 +361,9 @@ package body Map is
    
    procedure Color is
       
+      Max_U : Float := 0.0;
+      Ganglion_Fired : Boolean := False;
+      
    begin
       
       while Dirty loop
@@ -359,7 +374,46 @@ package body Map is
                Motion ( Region, Color );
             end loop;
          end loop;
-         
+	 
+         -- Winner take all in each region group...neuron with highest
+	 --    activation energy wins. If two have same, then the lowest
+	 --    numbered color wins.
+	 
+	 for Region in 1 .. Nr_Regions loop
+	    Max_U := 0.0;
+	    Ganglion_Fired := False;
+	    
+	    for Color in 1 .. Nr_Colors loop
+	       if Max_U < NN_Map ( Region ) ( Color ).U then
+		  Max_U := NN_Map ( Region ) ( Color ).U;
+	       end if;
+	    end loop;
+	    
+	    for Color in 1 .. Nr_Colors loop
+	       if ( NN_Map ( Region ) ( Color ).U > 0.0 ) and
+		 ( NN_Map ( Region ) ( Color ).U = Max_U ) and
+		 ( not Ganglion_Fired ) then
+		  
+		  if ( NN_Map ( Region ) ( Color ).V = 0 ) then
+		    Dirty := True;
+		  end if;
+		  
+		  NN_Map ( Region ) ( Color ).V := 1;
+		  Ganglion_Fired := True;
+	       else
+		  
+		  if ( NN_Map ( Region ) ( Color ).V = 1 ) then
+		    Dirty := True;
+		  end if;
+		  
+		  NN_Map ( Region ) ( Color ).V := 0;
+		  
+	       end if;
+	    end loop;
+	 end loop;
+	 
+	 Ada.Text_IO.New_Line;
+	 
          for I in 1 .. Nr_Regions loop
             for J in 1 .. Nr_Colors loop
                NN_Map_Old ( I ) ( J ) := NN_Map ( I ) ( J );
@@ -369,7 +423,7 @@ package body Map is
          Iterations := Iterations + 1;
          
          Ada.Text_IO.Put ( "Iteration: " );
-         Ada.Integer_Text_IO.Put ( Iterations );
+         Ada.Integer_Text_IO.Put ( Iterations, 0 );
          Ada.Text_IO.New_Line;
          Print_NN_Map ( NN_Map );   
          Ada.Text_IO.New_Line;

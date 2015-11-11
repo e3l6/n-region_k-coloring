@@ -6,12 +6,12 @@
 OBJS = color.o map.o
 
 .adb.o:
-	gcc -c $<
+	gcc -c -gnat2012 $<
 
 .SUFFIXES: .adb .o
 
 color:	$(OBJS)
-	gnatbind -xf color.ali
+	gnatbind color.ali
 	gnatlink color.ali
 
 clean:
