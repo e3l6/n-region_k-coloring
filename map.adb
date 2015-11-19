@@ -7,6 +7,9 @@
 -- Implementing Y. Takefuji, et al., solution from Neural Network Parallel
 --    Computing, chapter 3
 --
+-- 2015-11-11 - Added "ganglia" for each region to implement winner-takes-all
+--              strategy to ensure only one neuron in the region is fired.
+--
 --------------------------------------------------------------------------------
 
 package body Map is

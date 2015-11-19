@@ -33,8 +33,7 @@ package Map is
    
    type Region_Type is array ( Nr_Colors_Type range <> ) of Neuron_Type;
    
-   -- I need a dynamic array of dynamic arrays. Using Ada's implicit
-   --   dereferencing of access types.
+   -- I need a dynamic array of dynamic arrays
    type Map_Type is array ( Nr_Regions_Type range <> ) of access
      Region_Type;
    
