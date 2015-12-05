@@ -1,4 +1,4 @@
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 --
 -- Eric Laursen, 25 October 2015, CS 441-001 Term Project
 --
@@ -7,7 +7,7 @@
 -- Implementing Y. Takefuji, et al., solution from Neural Network Parallel
 --    Computing, chapter 3
 --
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 with Ada.Float_Text_IO;
 with Ada.Integer_Text_IO;
@@ -72,19 +72,12 @@ package Map is
 
    procedure Print_Adjacency_Matrix;
 
-   --  procedure Initialize;
-
    task Map_Initialize is
       entry Start;
       entry Report;
    end Map_Initialize;
 
    procedure Print_NN_Map;
-
-   --  procedure Motion ( Region : in Nr_Regions_Type;
-   --                     Color : in Nr_Colors_Type );
-
-   --  procedure Color;
 
    task Color_Task is
       entry Start;

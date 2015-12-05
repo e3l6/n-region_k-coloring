@@ -84,15 +84,14 @@ package body Map is
             Ada.Integer_Text_IO.Put ( Tmp_Y, 0 );
             Ada.Text_IO.Put_Line ( ". That's just silly. Ignoring pair" );
          else
-            --  Ada.Text_IO.Put ( "Region " );
-            --  Ada.Integer_Text_IO.Put ( Tmp_X, 0 );
-            --  Ada.Text_IO.Put ( " adjacent to region " );
-            --  Ada.Integer_Text_IO.Put ( Tmp_Y, 0 );
-            --  Ada.Text_IO.New_LIne;
+            -- Ada . Text_IO . Put ( " Region " );
+            -- Ada . Integer_Text_IO . Put ( Tmp_X , 0 );
+            -- Ada . Text_IO . Put ( " adjacent to region " );
+            -- Ada . Integer_Text_IO . Put ( Tmp_Y , 0 );
+            -- Ada . Text_IO . New_LIne ;
             
             Adjacency_Matrix ( Tmp_X, Tmp_Y ) := 1;
             Adjacency_Matrix ( Tmp_Y, Tmp_X ) := 1;
-            
          end if;
       end loop;
       
@@ -125,6 +124,10 @@ package body Map is
       
       Table_Col_Width := Ada.Strings.Unbounded.Length ( Ada.Strings.Unbounded.To_Unbounded_String ( Integer'Image ( Nr_Regions ) ) );
       
+      -- Commented out a lot of the following to be able to display a 200 region solution.
+      --    Uncomment the next four lines and switch commented sections in the I in 1 .. Nr_regions
+      --    loop to expand the output matrix to match the sequential implementation
+      
       --  Ada.Text_IO.Set_Col ( Ada.Text_IO.Count ( Table_Col_Width + 1 ) );
       
       --  for I in 1 .. Nr_Regions loop
@@ -144,6 +147,7 @@ package body Map is
          --        Ada.Text_IO.Set_Col ( Ada.Text_IO.Count ( Integer ( Ada.Text_IO.Col ) +
          --                                                  Table_Col_Width ) );
          --     end if;
+         
          for J in 1 .. Nr_Regions loop
             if Adjacency_Matrix ( I, J ) = 1 then
                Ada.Integer_Text_IO.Put ( Adjacency_Matrix ( I, J ), 0 );
@@ -185,9 +189,9 @@ package body Map is
       
       for I in 1 .. Nr_Regions loop
          NN_Map ( I ) := new Region_Type ( Nr_Colors );
-         --  Ada.Text_IO.Put ( "Created region " );
-         --  Ada.Integer_Text_IO.Put ( I, 0 );
-         --  Ada.Text_IO.New_Line;
+         -- Ada . Text_IO . Put ( " Created region " );
+         -- Ada . Integer_Text_IO . Put ( I , 0 );
+         -- Ada . Text_IO . New_Line;
       end loop;
       
       for I in 1 .. Nr_Regions loop
